@@ -15,6 +15,13 @@ pygame.mouse.set_visible(True)
 font = pygame.font.Font(r'.venv\pygame\assets\font\Grand9K Pixel.ttf', 23)
 
 # functions
+def start_animation():
+    global start_screen_index, start_screen_surface
+    # walking animation
+    start_screen_index += 0.025
+    if start_screen_index >= len(start_screen):start_screen_index =0
+    start_screen_surface = start_screen[int(start_screen_index)]
+
 def shiba_animation():
 
     # play walking animation
@@ -77,6 +84,23 @@ def display_text_block(text_list, theScreen=screen, theFont=font, y_bottom=780, 
         current_y += rect.height + spacing
 
 ################## ==LOAD IMAGE== #################
+# Load start screen images
+start_screen_1 = pygame.image.load(r'.venv\pygame\assets\screen\start_1.png')
+start_screen_2 = pygame.image.load(r'.venv\pygame\assets\screen\start_2.png')
+start_screen_1 = pygame.transform.scale(start_screen_1, (WIDTH, HEIGHT))
+start_screen_2 = pygame.transform.scale(start_screen_2, (WIDTH, HEIGHT))
+
+start_screen = [start_screen_1, start_screen_2]
+start_screen_index = 0
+
+# Load start screen button position
+start_button_rect = pygame.Rect(135,325,200,80)
+
+# Load YES! button image
+yes_button = pygame.image.load(r'.venv\pygame\assets\screen\button.png').convert_alpha()
+yes_button = pygame.transform.scale(yes_button, (WIDTH/3, HEIGHT/8))
+yes_button_rect = yes_button.get_rect(center=(WIDTH//2, HEIGHT//2))
+
 # Load living room background
 bad_living = pygame.image.load(r'.venv\pygame\assets\screen\bad_living_room.png').convert_alpha()
 bad_living = pygame.transform.scale(bad_living, (1350, 675))
@@ -114,7 +138,8 @@ lock = False
 
 # state
 triggered = False
-state = "enter_home"
+state = "start"
+# state = "enter_home"
 
 # Event
 INTRO_EVENT = pygame.USEREVENT + 1
@@ -122,15 +147,21 @@ INTRO_EVENT = pygame.USEREVENT + 1
 # texts
 text_index = 0
 current_text = 0
-show_text = True
+show_text = False
 
+text_intro = ["You're an ordinary office worker.",
+              "Just another normal evening now.",
+              "You've had such a long, tiring day.",
+              "Dreaming of your little cozy home...",
+              "Get back home right now?"]
 text_0 = ["OAO", 
           "What in the world is happening?",
           "Why is my room like this!!????",] 
 text_1 = ["NO!!",
           "My favarite vase!",
           "Who could have done this?"]
-texts = [text_0, text_1]
+texts = [text_intro, text_0, text_1]
+# texts = [text_0, text_1]
 
 # Main loop
 while True:
@@ -146,6 +177,7 @@ while True:
                 if text_index >= len(texts[current_text]):
                     text_index = 0
                     show_text = False
+                    # current_text += 1
                 print("Left click detected!")
 
         
@@ -174,7 +206,7 @@ while True:
         if camera_x >= 580:
             if not triggered:
                 show_text = True
-                current_text = 1
+                current_text = 2
                 lock = True # temporarily lock camera movement    
                 pygame.time.set_timer(INTRO_EVENT, 5000) # Set a timer for 5 seconds
             
@@ -205,20 +237,8 @@ while True:
         # shiba_rect = shiba_surface.get_rect(topleft=(shiba_x - camera_x, shiba_y)) # Update shiba position
         # screen.blit(shiba_surface, shiba_rect) # Draw the shiba inu
        
-            
 
-    if show_text and text_index < len(texts[current_text]):
-        message = texts[current_text][text_index]
-        text_surf = font.render(message, True, (255, 255, 255))
-        text_rect = text_surf.get_rect(center=(WIDTH//2, 650))  # Top-center
-
-        # Transparent black background box
-        bg_surf = pygame.Surface((text_rect.width + 30, text_rect.height + 20), pygame.SRCALPHA)
-        bg_surf.fill((0, 0, 0, 150))  # semi-transparent black
-        screen.blit(bg_surf, text_rect.move(-15, -10))  # Offset for padding
-        screen.blit(text_surf, text_rect)     
-
-    if state == "enter_home":
+    if state == "entered_home":
         # Draw the background
         screen.blit(bad_living, (0, 0))
         
@@ -230,6 +250,41 @@ while True:
         else:
             state = "gameplay"
         
+    if state == "start":
+        start_animation()
+        screen.blit(start_screen_surface, (0, 0))
+        mouse_pos = pygame.mouse.get_pos()
+        if start_button_rect.collidepoint(mouse_pos):
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                show_text = True
+                current_text = 0
+                state = "entering_home"
+
+                
+    if state == "entering_home":
+        screen.fill(BLACK)
+        mouse_pos = pygame.mouse.get_pos()
+        if not show_text:
+            screen.blit(yes_button, yes_button_rect)
+            display_text_block(["YES!!"], y_bottom=425, alpha=0)
+            if yes_button_rect.collidepoint(mouse_pos):
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    show_text = True
+                    current_text = 1
+                    state = "entered_home"
+        
+    
+    if show_text and text_index < len(texts[current_text]):
+        message = texts[current_text][text_index]
+        text_surf = font.render(message, True, (255, 255, 255))
+        text_rect = text_surf.get_rect(center=(WIDTH//2, 650))  # Top-center
+
+        # Transparent black background box
+        bg_surf = pygame.Surface((text_rect.width + 30, text_rect.height + 20), pygame.SRCALPHA)
+        bg_surf.fill((0, 0, 0, 150))  # semi-transparent black
+        screen.blit(bg_surf, text_rect.move(-15, -10))  # Offset for padding
+        screen.blit(text_surf, text_rect)   
+
     pygame.display.flip()
    
     clock.tick(FPS)
