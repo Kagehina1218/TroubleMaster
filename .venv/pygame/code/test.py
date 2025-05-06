@@ -11,6 +11,7 @@ from ui import ToggleImage
 BOTTOM = 675
 
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 screen.fill('White')
 pygame.display.set_caption("Start Screen")
@@ -88,6 +89,22 @@ def display_text_block(text_list, theScreen=screen, theFont=font, y_bottom=780, 
         screen.blit(surf, rect)
         current_y += rect.height + spacing
 
+################## ==MUSIC== #################
+# Background music
+background_music = r'.venv\pygame\assets\music\BACKGROUND-pixabay-happy-flowers-playful-cute-xylophone-187119.mp3'
+sus_music = r'.venv\pygame\assets\music\SUS-pixabay-cartoon-music-animation-video-funny-cute-quirky-background-intro-255037.mp3'
+musics = [background_music, sus_music]
+
+music_index = 0
+
+pygame.mixer.music.load(musics[music_index])
+pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.play(-1)  # Loop the music indefinitely
+
+# Button click
+click_sound = pygame.mixer.Sound(r'.venv\pygame\assets\music\BUTTON-CLICK-mixkit-game-ball-tap-2073.wav')  # Replace with your sound file path
+click_sound.set_volume(0.8)  # Adjust volume (0.0 to 1.0)
+
 ################## ==LOAD IMAGE== #################
 # Load start screen images
 start_screen_1 = pygame.image.load(r'..\assets\screen\start_1.png')
@@ -143,7 +160,9 @@ lock = False
 
 # state
 triggered = False
+end = False
 char_intro = False
+
 # state = "start"
 # state = "enter_home"
 state = 'char_intro'
@@ -152,6 +171,7 @@ state = 'char_intro'
 
 # Event
 INTRO_EVENT = pygame.USEREVENT + 1
+END = pygame.USEREVENT + 2
 
 # texts
 text_index = 0
@@ -177,8 +197,9 @@ text_0 = ["OAO",
 text_1 = ["NO!!",
           "My favarite vase!",
           "Who could have done this?"]
-texts = [text_intro, text_0, text_1]
-# texts = [text_0, text_1]
+text_2 = ["Only one truth prevails ...", 
+          'and the real offender is...', 'AN AN!!']
+texts = [text_intro, text_0, text_1, text_2]
 
 white_toggle = ToggleImage((8, 180), a.white_find)
 black_toggle = ToggleImage((155, 180), a.black_find)
@@ -202,19 +223,15 @@ while True:
                 if text_index >= len(texts[current_text]):
                     text_index = 0
                     show_text = False
-                    # current_text += 1
                 # print("Left click detected!")
                               
-        # shiba_animation()
-        # shiba_rect = shiba_surface.get_rect(topleft=(shiba_x - camera_x, shiba_y)) # Update shiba position
-        # screen.blit(shiba_surface, shiba_rect) # Draw the shiba inu
-
     if state == "start":
         start_animation()
         screen.blit(start_screen_surface, (0, 0))
         mouse_pos = pygame.mouse.get_pos()
         if start_button_rect.collidepoint(mouse_pos):
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                click_sound.play()
                 show_text = True
                 current_text = 0
                 state = "entering_home"
@@ -227,12 +244,18 @@ while True:
             display_text_block(["YES!!"], y_bottom=425, alpha=0)
             if yes_button_rect.collidepoint(mouse_pos):
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    click_sound.play()
                     show_text = True
                     current_text = 1
                     state = "entered_home"
 
     if state == "entered_home":
         # Draw the background
+        music_index = 1
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load(musics[music_index])
+        pygame.mixer.music.play(-1)
+
         screen.blit(bad_living, (0, 0))
         
         if black_screen_y > -800:
@@ -347,18 +370,25 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             if a.white_know_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 state = "white_p"
             elif a.black_know_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 state = "black_p"
             elif a.orange_know_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 state = "orange_p"
             elif a.shiba_know_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 state = "shiba_p"
             elif a.husky_know_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 state = "husky_p"
             elif a.parrots_know_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 state = "parrots_p"
             elif cont.collidepoint(mouse_pos):
+                click_sound.play()
                 state = 'event_pause'
 
     if state ==  'white_p':
@@ -369,6 +399,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and state == 'white_p':
             mouse_pos = pygame.mouse.get_pos()
             if a.back_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 screen.blit(a.profile_back, (0, 0))
                 state = "char_intro"
 
@@ -379,6 +410,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             if a.back_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 screen.blit(a.profile_back, (0, 0))
                 state = "char_intro"
 
@@ -389,6 +421,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             if a.back_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 screen.blit(a.profile_back, (0, 0))
                 state = "char_intro"
 
@@ -399,6 +432,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             if a.back_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 screen.blit(a.profile_back, (0, 0))
                 state = "char_intro"
 
@@ -409,6 +443,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             if a.back_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 screen.blit(a.profile_back, (0, 0))
                 state = "char_intro"
     
@@ -419,6 +454,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mouse_pos = pygame.mouse.get_pos()
             if a.back_rect.collidepoint(mouse_pos):
+                click_sound.play()
                 screen.blit(a.profile_back, (0, 0))
                 state = "char_intro"
     
@@ -545,21 +581,35 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = pygame.mouse.get_pos()
             if done.collidepoint(mouse_pos) and event.button == 1:
+                click_sound.play()
                 state = 'event_1_result'
 
             for toggle in all_toggles:
                 toggle.handle_click(event.pos)
 
+# if state == 'event_1_result':
+    #     screen.fill(BLACK)
+    #     display_text_block(["Only one truth prevails ...", 'and the real offender is -'])
+    #     event1_rect = pygame.Rect(0,0,c.WIDTH,c.HEIGHT)
+    #     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+    #         mouse_pos = pygame.mouse.get_pos()
+    #         if event1_rect.collidepoint(mouse_pos):
+    #             screen.fill(BLACK)
+    #             display_text_block(["AN AN"])
+
     if state == 'event_1_result':
         screen.fill(BLACK)
-        display_text_block(["Only one truth prevails ...", 'and the real culprit is -'])
-        event1_rect = pygame.Rect(0,0,c.WIDTH,c.HEIGHT)
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            mouse_pos = pygame.mouse.get_pos()
-            if event1_rect.collidepoint(mouse_pos):
-                screen.fill(BLACK)
-                display_text_block(["AN AN"])
+        if not end:
+            show_text = True
+            current_text = 3
+            end = True
+            pygame.time.set_timer(END, 6000)
+        
 
+    if event.type == END:
+        deactivate_motion()
+        screen.fill(BLACK)
+        display_text_block(["Thanks for playing!"], y_bottom=400, alpha=0)
 
     
     if show_text and text_index < len(texts[current_text]):
