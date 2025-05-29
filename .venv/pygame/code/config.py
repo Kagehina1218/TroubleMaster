@@ -5,6 +5,7 @@ WIDTH = 450
 HEIGHT = 800
 FPS = 60
 WHITE, BLACK = (255,255,255), (0,0,0)
+TEXT_COLOR = (255,255,255)
 PINK = (245,211,223)
 BLUE = (128,178,255)
 YES = "YES!!"
@@ -41,9 +42,7 @@ text_0 = ["OAO",
 text_1 = ["NO!!",
           "My favarite vase!",
           "Who could have done this?"]
+text_2 = ["Only one truth prevails ...", 
+          'and the real offender is...', 'AN AN!!']
+
 texts = [text_0, text_1]
-
-
-
-
-

@@ -3,6 +3,8 @@ import os
 import config as c
 import assets as a
 
+## class defined 
+# class for start screen
 class StartScreen:
     def __init__(self, screen, frames):
         self.screen = screen
@@ -33,7 +35,7 @@ class StartScreen:
     def draw(self):
         self.screen.blit(self.frames[self.current_frame], (0, 0))
 
-
+# class for button
 class Button:
     def __init__(self, screen, x, y, image):
         self.image = image
@@ -54,6 +56,7 @@ class Button:
         global current
         current = image
 
+# class for toggle image
 class ToggleImage:
     def __init__(self, pos, images):
         self.images = images
@@ -67,15 +70,8 @@ class ToggleImage:
         if self.rect.collidepoint(mouse_pos):
             self.index = 1 - self.index  
 
-
-def shiba_animation():
-        # play walking animation
-    global shiba_index, shiba_surface
-        # walking animation
-    shiba_index += 0.1
-    if shiba_index >= len(c.shiba_walk): shiba_index =0
-    shiba_surface = c.shiba_walk[int(shiba_index)]
-
+## function defined 
+# funct for unlock the screen
 def activate_motion():
     pygame.event.set_grab(False)  # Allow mouse movement
     pygame.event.set_allowed(pygame.MOUSEMOTION)      # Allow mouse movement
@@ -84,6 +80,7 @@ def activate_motion():
     pygame.event.set_allowed(pygame.KEYDOWN)          # Allow key presses
     pygame.event.set_allowed(pygame.KEYUP)            # Optional: allow key releases
 
+# funct for lock the screen
 def deactivate_motion():
     pygame.event.set_blocked(pygame.MOUSEMOTION)      # Ignore mouse movement
     pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)  # Ignore mouse click
@@ -91,49 +88,7 @@ def deactivate_motion():
     pygame.event.set_blocked(pygame.KEYDOWN)          # Ignore key presses
     pygame.event.set_blocked(pygame.KEYUP) 
 
-def display_text_block(self, text_list, theScreen, theFont, y_bottom=780, padding=20, alpha=150):
-    """
-    Displays a list of text lines stacked vertically with a transparent background behind them.
-    """
-    # Render all text lines and store their surfaces and rects
-    text_surfs = [c.font.render(line, True, (255, 255, 255)) for line in text_list]
-    text_rects = [surf.get_rect() for surf in text_surfs]
-
-    # Calculate the total height of the stacked text
-    spacing = 5  # space between lines
-    total_text_height = sum(rect.height for rect in text_rects) + spacing * (len(text_list) - 1)
-
-    # Starting y position for the first line (aligned to y_bottom)
-    start_y = y_bottom - total_text_height
-
-    # Find the widest line for background width
-    max_width = max(rect.width for rect in text_rects)
-
-    # Create the background surface
-    bg_width = max_width + padding * 2
-    bg_height = total_text_height + padding
-    bg_surf = pygame.Surface((bg_width, bg_height), pygame.SRCALPHA)
-    bg_surf.fill((0, 0, 0, alpha))  # semi-transparent black
-
-    # Center the background horizontally
-    bg_rect = bg_surf.get_rect(centerx=theScreen.get_width() // 2, bottom=y_bottom)
-
-    # Blit background
-    theScreen.blit(bg_surf, bg_rect)
-
-    # Blit each text line
-    current_y = bg_rect.top + padding // 2
-    for surf, rect in zip(text_surfs, text_rects):
-        rect.midtop = (theScreen.get_width() // 2, current_y)
-        theScreen.blit(surf, rect)
-        current_y += rect.height + spacing
-
-# class Lock:
-#     def __init__(self):
-#         pass
-
-#     def lock(self):
-
+# func to swtich the screen
 def screen_switch(screen, frame, size, pos, color_filled, index = 0, speed=0.025):
     screen.fill(color_filled)
     index += speed
@@ -147,6 +102,7 @@ def screen_switch(screen, frame, size, pos, color_filled, index = 0, speed=0.025
 
     return index
 
+# func to draw the text
 def draw_text(text, x, y, color, font, screen):
     surface = font.render(text, True, color)
     rect = surface.get_rect(center=(x, y))

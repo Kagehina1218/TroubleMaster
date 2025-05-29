@@ -5,14 +5,29 @@ import config as c
 ## FONT LOAD
 font_address = r'..\assets\font\Grand9K Pixel.ttf'
 
+## MUSIC LOAD
+background_music = r'..\assets\music\BACKGROUND-pixabay-happy-flowers-playful-cute-xylophone-187119.mp3'
+sus_music = r'..\assets\music\SUS-pixabay-cartoon-music-animation-video-funny-cute-quirky-background-intro-255037.mp3'
+click_music = r'..\assets\music\BUTTON-CLICK-mixkit-game-ball-tap-2073.wav'
+
 ## IMAGE LOAD
 # Start screen
+start_screen_1 = pygame.image.load(r'..\assets\screen\start_1.png')
+start_screen_2 = pygame.image.load(r'..\assets\screen\start_2.png')
+start_screen_1 = pygame.transform.scale(start_screen_1, (c.WIDTH, c.HEIGHT))
+start_screen_2 = pygame.transform.scale(start_screen_2, (c.WIDTH, c.HEIGHT))
+
 img_1 = pygame.image.load(r'..\assets\screen\start_1.png')
 img_2 = pygame.image.load(r'..\assets\screen\start_2.png')
 
 # Button
 but = pygame.image.load(r'..\assets\screen\button.png')
 button_1 = pygame.transform.scale(but, ((c.WIDTH/3, c.HEIGHT/8)))
+
+# Yes button
+yes_button = pygame.image.load(r'..\assets\screen\button.png').convert_alpha()
+yes_button = pygame.transform.scale(yes_button, (c.WIDTH/3, c.HEIGHT/8))
+yes_button_rect = yes_button.get_rect(center=(c.WIDTH//2, c.HEIGHT//2))
 
 # Bad living room
 bad_living = pygame.image.load(r'..\assets\screen\bad_living_room.png').convert_alpha()
