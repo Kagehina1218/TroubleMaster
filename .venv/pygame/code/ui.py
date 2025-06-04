@@ -73,6 +73,8 @@ class ToggleImage:
 ## function defined 
 # funct for unlock the screen
 def activate_motion():
+
+    '''Enable the mouse and key action for user interaction.'''
     pygame.event.set_grab(False)  # Allow mouse movement
     pygame.event.set_allowed(pygame.MOUSEMOTION)      # Allow mouse movement
     pygame.event.set_allowed(pygame.MOUSEBUTTONDOWN)  # Allow mouse click
@@ -82,6 +84,8 @@ def activate_motion():
 
 # funct for lock the screen
 def deactivate_motion():
+
+    '''Enable the mouse and key action.'''
     pygame.event.set_blocked(pygame.MOUSEMOTION)      # Ignore mouse movement
     pygame.event.set_blocked(pygame.MOUSEBUTTONDOWN)  # Ignore mouse click
     pygame.event.set_blocked(pygame.MOUSEBUTTONUP)    # Optional: ignore mouse release
@@ -90,6 +94,30 @@ def deactivate_motion():
 
 # func to swtich the screen
 def screen_switch(screen, frame, size, pos, color_filled, index = 0, speed=0.025):
+
+    '''
+    Switch the display/screen with another, can be used to animation
+    If the argument 'index' and 'speed' aren't passed in, the default value is used 
+
+    Param:
+        screen: display object created by using pygame
+            locate the current screen
+        frame: list
+            the array that contains the different frames that enable the animation
+        size: tuple
+            (width, height), used to resize the current frame 
+        pos: tuple
+            (x,y), used to locate the display of frame on the screen
+        color_filled: tuple
+            (r,g,b), used to decided the background color
+        index: int
+            used to update the index of frame
+        speed: int
+            the speed to switch the frame
+    Return: 
+        index: int
+            keep track of the index, update the value
+    '''
     screen.fill(color_filled)
     index += speed
 
@@ -104,6 +132,26 @@ def screen_switch(screen, frame, size, pos, color_filled, index = 0, speed=0.025
 
 # func to draw the text
 def draw_text(text, x, y, color, font, screen):
+    '''
+    Display the text on the screen
+
+    Param:
+        text: str
+            the text that want to display on screen
+        x: int
+            the x value to locate the text, center value
+        y: int
+            the y value to locate the text, center value
+        color: tuple
+            (r,g,b), the text color
+        font: object created by pygame.font.Font
+            define the font of text
+        screen: display object created by using pygame
+            locate the current screen
+    Return:
+        rect: object created by get_rect
+            return the created object that located with the text
+    '''
     surface = font.render(text, True, color)
     rect = surface.get_rect(center=(x, y))
     screen.blit(surface, rect)
