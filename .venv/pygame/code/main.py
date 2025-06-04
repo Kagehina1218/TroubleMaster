@@ -21,6 +21,8 @@ click_sound = pygame.mixer.Sound(a.click_music)
 
 # functions
 def start_animation():
+
+    '''Animation for start screen'''
     global start_screen_index, start_screen_surface
     # walking animation
     start_screen_index += 0.025
@@ -28,6 +30,8 @@ def start_animation():
     start_screen_surface = start_screen[int(start_screen_index)]
 
 def shiba_animation():
+    
+    '''Animation for shiba in intro'''
         # play walking animation
     global shiba_index, shiba_surface
         # walking animation
@@ -38,6 +42,20 @@ def shiba_animation():
 def display_text_block(text_list, theScreen=screen, theFont=font, y_bottom=780, padding=20, alpha=150):
     """
     Displays a list of text lines stacked vertically with a transparent background behind them.
+
+    Param:
+        text_list: list
+            the array that have sequence of text 
+        theScreen: display object created by using pygame
+            locate the current screen 
+        theFont: object created by pygame.font.Font
+            define the font of text
+        y_bottom: int
+            the bottom position of the displayed text
+        padding: int
+            define the height and width surrounding the text 
+        alpha: int
+            define the background color to display the text
     """
     # Render all text lines and store their surfaces and rects
     text_surfs = [theFont.render(line, True, (255, 255, 255)) for line in text_list]

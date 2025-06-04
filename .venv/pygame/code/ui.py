@@ -7,9 +7,6 @@ import assets as a
 # class for start screen
 class StartScreen:
     def __init__(self, screen, frames):
-        '''
-        
-        '''
         self.screen = screen
         self.frames = frames
         
