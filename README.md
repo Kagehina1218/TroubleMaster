@@ -2,7 +2,10 @@
 >By: Grace Li (Kagehina1218), Emily Lu (emily0107)    
   
 The goal of this project is to design a 2D mini game where player would be the pet owner that aim to find the pet that is causing the trouble at home. :smirk_cat:
-  
+
+## Demo :video_game:
+<img src="https://github.com/user-attachments/assets/9d697f7d-96bc-4431-9db2-255b86dba2b7" style="width: 20%;">
+
 ## Requirements :v:
 Python 3.13.0  
 
