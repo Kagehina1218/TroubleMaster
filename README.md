@@ -17,4 +17,6 @@ Python 3.13.0
 After unzipped the zip file, there are two ways to run the game:  
 1. Run **main.py** on an IDE.  
 2. cd into the directory containing **main.py** then use command line `python main.py` to run the game.  
-**main.py** is located in folder `.venv` - `pygame` - `code`.  
+**main.py** is located in folder `.venv` - `pygame` - `code`.
+
+Copyright © Emily Lu & Grace Li 2025
