@@ -12,11 +12,13 @@ Python 3.13.0
 ## Installation Instructions :file_folder:
 1. Download python from [Python.org](https://www.python.org/downloads/) and check python version by using this command: `python --version`.  
 2. Download the code on GitHub by navigate to the main page of the repository. Above the list of files, click Code. Click Download ZIP.
-3. Unzip the zip file.  
+3. Unzip the zip file.
+4. Setup the venv environment
+5. Within the venv, use this command `pip install -r requirements.txt` to setup the environment
 ## Usage Instructions :pushpin: 
 After unzipped the zip file, there are two ways to run the game:  
 1. Run **main.py** on an IDE.  
 2. cd into the directory containing **main.py** then use command line `python main.py` to run the game.  
-**main.py** is located in folder `.venv` - `pygame` - `code`.
+**main.py** is located in folder `src` - `code`.
 
 Copyright © Emily Lu & Grace Li 2025
