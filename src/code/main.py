@@ -136,8 +136,7 @@ triggered = False
 end = False
 char_intro = False
 
-# state = "start"
-state = 'char_chose'
+state = "start"
 
 # Event
 INTRO_EVENT = pygame.USEREVENT + 1
